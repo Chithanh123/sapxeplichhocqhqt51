@@ -5,117 +5,213 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sắp xếp học phần</title>
     <style>
-        body {
-            font-family: Be Vietnam Pro, sans-serif;
-            margin: 20px;
-            max-width: 10000px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .timetable {
-            display: grid;
-            grid-template-columns: 80px repeat(6, 1fr);
-            gap: 2px;
-            margin-bottom: 20px;
-            overflow-x: auto;
-        }
-        .cell {
-            border: 1px solid #ccc;
-            padding: 5px;
-            min-height: 100px;
-            font-size: 14px;
-            background: #fff;
-        }
-        .header {
-            background-color: #f0f0f0;
-            font-weight: bold;
-            text-align: center;
-            min-height: auto;
-            position: sticky;
-            top: 0;
-        }
-        .class-slot {
-            background-color: #e6f3ff;
-            margin: 6px;
-            padding: 3px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            border: 1px solid #ccc;
-        }
-        .class-slot:hover {
-            background-color: #b3d9ff;
-        }
-        .class-slot.selected {
-            background-color: #4CAF50;
-            color: white;
-        }
-        .class-slot.disabled {
-            background-color: #ddd;
-            cursor: not-allowed;
-            color: #666;
-        }
-        #selectedClasses {
-            margin-top: 20px;
-        }
-        .warning {
-            color: red;
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #ffe6e6;
-            border-radius: 4px;
-        }
-        .class-slot.hidden {
-            display: none;
-        }
-        .time-group {
-            margin-bottom: 15px;
-            border-left: 3px solid #4CAF50;
-            padding-left: 10px;
-        }
-        .time-header {
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 5px;
-        }
-        .subject-item {
-            margin-left: 20px;
-            margin-bottom: 3px;
-        }
-        #hideUnselectedBtn {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-bottom: 20px;
-            display: none;
-        }
-        #hideUnselectedBtn:hover {
-            background-color: #45a049;
-        }
-        .show-all-btn {
-            background-color: #2196F3;
-        }
-    </style>
+    body {
+        font-family: Be Vietnam Pro, sans-serif;
+        margin: 20px;
+        max-width: 10000px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    .timetable {
+        display: grid;
+        grid-template-columns: 80px repeat(6, 1fr);
+        gap: 2px;
+        margin-bottom: 20px;
+        overflow-x: auto;
+    }
+    .cell {
+        border: 1px solid #ccc;
+        padding: 5px;
+        min-height: 100px;
+        font-size: 14px;
+        background: #fff;
+    }
+    .header {
+        background-color: #1a237e; /* Dark blue header */
+        color: white;
+        font-weight: bold;
+        text-align: center;
+        min-height: auto;
+        position: sticky;
+        top: 0;
+        white-space: pre-line;
+        padding: 10px 5px;
+    }
+    .class-slot {
+        background-color: #e3f2fd; /* Light blue background */
+        margin: 6px;
+        padding: 3px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        border: 1px solid #bbdefb; /* Light blue border */
+    }
+    .class-slot:hover {
+        background-color: #bbdefb; /* Slightly darker blue on hover */
+    }
+    .class-slot.selected {
+        background-color: #d32f2f; /* Red for selected items */
+        color: white;
+        border-color: #b71c1c; /* Darker red border */
+    }
+    .class-slot.disabled {
+        background-color: #ddd;
+        cursor: not-allowed;
+        color: #666;
+    }
+    .class-slot.hidden {
+        display: none;
+    }
+    .button-container {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        margin: 20px 0;
+    }
+    #hideUnselectedBtn, #exportBtn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        color: white;
+        transition: background-color 0.3s;
+    }
+    #hideUnselectedBtn {
+        background-color: #1976d2; /* Blue button */
+    }
+    #hideUnselectedBtn:hover {
+        background-color: #1565c0; /* Darker blue on hover */
+    }
+    #hideUnselectedBtn.show-all-btn {
+        background-color: #d32f2f; /* Red when showing all */
+    }
+    #exportBtn {
+        background-color: #d32f2f; /* Red export button */
+    }
+    #exportBtn:hover {
+        background-color: #c62828; /* Darker red on hover */
+    }
+    .warning {
+        color: #d32f2f; /* Red text for warnings */
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #ffebee; /* Light red background */
+        border-radius: 4px;
+        border-left: 4px solid #d32f2f; /* Red left border */
+    }
+    .time-group {
+        margin-bottom: 15px;
+        border-left: 3px solid #1976d2; /* Blue left border */
+        padding-left: 10px;
+    }
+    .time-header {
+        font-weight: bold;
+        color: #1976d2; /* Blue text */
+        margin-bottom: 5px;
+    }
+    .subject-item {
+        margin-left: 20px;
+        margin-bottom: 3px;
+        color: #333;
+    }
+    h2, h3 {
+        color: #1a237e; /* Dark blue headers */
+    }
+    .warning {
+        color: #d32f2f;
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #ffebee;
+        border-radius: 4px;
+        border-left: 4px solid #d32f2f;
+        margin-bottom: 10px;
+    }
+    .incomplete-warning {
+        border-left-color: #f57c00; /* Orange for incomplete selection warning */
+        background-color: #fff3e0;
+        color: #f57c00;
+    }
+    .important-notice {
+    background-color: #e3f2fd; /* Light blue background */
+    border: 2px solid #1976d2; /* Blue border */
+    border-radius: 8px;
+    padding: 15px 20px;
+    margin: 20px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.important-notice h3 {
+    color: #1a237e; /* Dark blue */
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+.notice-item {
+    margin-bottom: 15px;
+}
+
+.notice-item:last-child {
+    margin-bottom: 0;
+}
+
+.notice-item strong {
+    color: #d32f2f; /* Red text for emphasis */
+    display: block;
+    margin-bottom: 5px;
+}
+
+.notice-item ul {
+    margin: 5px 0;
+    padding-left: 25px;
+}
+
+.notice-item li {
+    margin: 5px 0;
+    color: #1a237e; /* Dark blue text */
+    font-weight: 500;
+}
+</style>
 </head>
 <body>
-    <h2>Lên kế hoạch sắp xếp học phần cho QHQT51</h2>
-    <p>Hướng dẫn và lưu ý:</p>
+    <h2>Lên kế hoạch sắp xếp học phần cho QHQT51 Học kì 2</h2>
+    <div class="important-notice">
+    <h3>Thông tin quan trọng:</h3>
+    <div class="notice-item">
+        <strong>🗓️ Lịch học:</strong>
+        <ul>
+            <li>Các lớp Thứ 2, Thứ 3: Bắt đầu từ tuần 10/02/2025</li>
+            <li>Các lớp còn lại: Bắt đầu từ tuần 05/02/2025</li>
+        </ul>
+    </div>
+    <div class="notice-item">
+        <strong>📚 Số tín chỉ:</strong>
+        <ul>
+            <li>Môn 3 tín chỉ: Môn bổ trợ, TACNII, và LSQHQTHĐI</li>
+            <li>Các môn còn lại: 2 tín chỉ</li>
+        </ul>
+    </div>
+</div>
+
+<p>Hướng dẫn và lưu ý:</p>
     <ul>
-        <li>Click vào lớp học để chọn, phần mềm sẽ tự động kiểm tra điều kiện để chọn</li>
-        <li>Đây không phải phần mềm chính thức, hãy nhớ đăng ký theo lịch</li>
+        <li>Click vào lớp học để chọn, phần mềm sẽ kiểm tra điều kiện để chọn, tránh mâu thuẫn</li>
+        <li>Đây không phải phần mềm chính thức, hãy nhớ đăng ký theo lịch từ 8h ngày 02/1</li>
         <li>Thông tin ở trang này có thể có sai sót, hãy kiểm tra kĩ</li>
-        <li>Trang không có chức năng lưu, hãy tự ghi lại kế hoạch của mình</li>
+        <li>Trang có chức năng lưu bằng cách xuất file .txt</li>
+        <li>Khi đã hoàn tất chọn các môn, sẽ xuất hiện nút ẩn các lớp không được chọn</li>
         <li>Các lớp Thứ 2 Thứ 3 bắt đầu từ tuần 10/02; các lớp còn lại bắt đầu từ ngày 5/02</li>
+        <li>Môn bổ trợ, TACNII, và LSQHQTHĐI 3 tín chỉ, các môn còn lại 2 tín chỉ</li>
     </ul>
         <div id="selectedClasses">
         <h3>Các lớp đã chọn:</h3>
         <div id="organizedList"></div>
     </div>
     <div id="warnings"></div>
-    <button id="hideUnselectedBtn">Ẩn các lớp chưa chọn</button>
+    <div class="button-container">
+        <button id="hideUnselectedBtn" style="display: none;">Ẩn các lớp không chọn</button>
+        <button id="exportBtn" style="display: none;">Xuất kế hoạch đăng ký (TXT)</button>
+    </div>
     <div class="timetable" id="timetable">
         <div class="cell header">Ca</div>
         <div class="cell header">Thứ 2</div>
@@ -809,58 +905,74 @@
         }
 
         function updateSelectedClassesList() {
-            const organizedList = document.getElementById('organizedList');
-            organizedList.innerHTML = '';
-            
-            // Create a structured object to organize classes by time
-            const timeSlots = {};
-            
-            selectedClasses.forEach((classes) => {
-                classes.forEach(classInfo => {
-                    const timeKey = `Thứ ${classInfo.thu} - Ca ${classInfo.ca}`;
-                    if (!timeSlots[timeKey]) {
-                        timeSlots[timeKey] = [];
-                    }
-                    timeSlots[timeKey].push(classInfo);
-                });
-            });
-
-            // Sort by day and time
-            const sortedTimes = Object.keys(timeSlots).sort((a, b) => {
-                const [dayA, caA] = a.match(/\d+/g).map(Number);
-                const [dayB, caB] = b.match(/\d+/g).map(Number);
-                return dayA !== dayB ? dayA - dayB : caA - caB;
-            });
-
-            // Create the organized list
-            sortedTimes.forEach(timeKey => {
-                const timeGroup = document.createElement('div');
-                timeGroup.className = 'time-group';
-
-                const timeHeader = document.createElement('div');
-                timeHeader.className = 'time-header';
-                timeHeader.textContent = timeKey;
-                timeGroup.appendChild(timeHeader);
-
-                timeSlots[timeKey].forEach(classInfo => {
-                    const subjectItem = document.createElement('div');
-                    subjectItem.className = 'subject-item';
-                    subjectItem.textContent = `${classInfo.tenHocPhan} - Lớp ${classInfo.soThuTu} - Phòng ${classInfo.phongHoc}`;
-                    timeGroup.appendChild(subjectItem);
-                });
-
-                organizedList.appendChild(timeGroup);
-            });
-
-            // Show/hide the hide unselected button
-            const hideUnselectedBtn = document.getElementById('hideUnselectedBtn');
-            const isSelectionComplete = checkIfSelectionComplete();
-            hideUnselectedBtn.style.display = isSelectionComplete ? 'block' : 'none';
-            if (isSelectionComplete) {
-                hideUnselectedBtn.textContent = 'Ẩn các lớp chưa chọn';
-                hideUnselectedBtn.classList.remove('show-all-btn');
+    const organizedList = document.getElementById('organizedList');
+    organizedList.innerHTML = '';
+    
+    // Create a structured object to organize classes by time
+    const timeSlots = {};
+    
+    selectedClasses.forEach((classes) => {
+        classes.forEach(classInfo => {
+            const timeKey = `Thứ ${classInfo.thu} - Ca ${classInfo.ca}`;
+            if (!timeSlots[timeKey]) {
+                timeSlots[timeKey] = [];
             }
+            timeSlots[timeKey].push(classInfo);
+        });
+    });
+
+    // Sort by day and time
+    const sortedTimes = Object.keys(timeSlots).sort((a, b) => {
+        const [dayA, caA] = a.match(/\d+/g).map(Number);
+        const [dayB, caB] = b.match(/\d+/g).map(Number);
+        return dayA !== dayB ? dayA - dayB : caA - caB;
+    });
+
+    // Create the organized list
+    sortedTimes.forEach(timeKey => {
+        const timeGroup = document.createElement('div');
+        timeGroup.className = 'time-group';
+
+        const timeHeader = document.createElement('div');
+        timeHeader.className = 'time-header';
+        timeHeader.textContent = timeKey;
+        timeGroup.appendChild(timeHeader);
+
+        timeSlots[timeKey].forEach(classInfo => {
+            const subjectItem = document.createElement('div');
+            subjectItem.className = 'subject-item';
+            subjectItem.textContent = `${classInfo.tenHocPhan} - Lớp ${classInfo.soThuTu} - Phòng ${classInfo.phongHoc}`;
+            timeGroup.appendChild(subjectItem);
+        });
+
+        organizedList.appendChild(timeGroup);
+    });
+
+    // Show/hide the buttons
+    const hideUnselectedBtn = document.getElementById('hideUnselectedBtn');
+    const exportBtn = document.getElementById('exportBtn');
+    const isSelectionComplete = checkIfSelectionComplete();
+    
+    // Show both buttons when any class is selected
+    const hasAnySelection = selectedClasses.size > 0;
+    hideUnselectedBtn.style.display = hasAnySelection ? 'block' : 'none';
+    exportBtn.style.display = hasAnySelection ? 'block' : 'none';
+
+    // Show incomplete selection warning
+    const warnings = document.getElementById('warnings');
+    const existingIncompleteWarning = warnings.querySelector('.incomplete-warning');
+    
+    if (hasAnySelection && !isSelectionComplete) {
+        if (!existingIncompleteWarning) {
+            const warning = document.createElement('div');
+            warning.className = 'warning incomplete-warning';
+            warning.textContent = 'Bạn chưa chọn đủ các môn học. Vui lòng chọn đầy đủ các môn học theo chương trình.';
+            warnings.appendChild(warning);
         }
+    } else if (existingIncompleteWarning) {
+        existingIncompleteWarning.remove();
+    }
+}
 
         function checkIfSelectionComplete() {
             // Check if all required subjects are selected
@@ -886,28 +998,24 @@
         }
 
         function toggleUnselectedClasses() {
-            const btn = document.getElementById('hideUnselectedBtn');
-            const isHiding = btn.textContent === 'Ẩn các lớp chưa chọn';
-            
-            document.querySelectorAll('.class-slot').forEach(slot => {
-                if (!slot.classList.contains('selected')) {
-                    if (isHiding) {
-                        slot.classList.add('hidden');
-                    } else {
-                        slot.classList.remove('hidden');
-                    }
-                }
-            });
-
-            // Toggle button text and style
-            if (isHiding) {
-                btn.textContent = 'Hiển thị tất cả lớp';
-                btn.classList.add('show-all-btn');
-            } else {
-                btn.textContent = 'Ẩn các lớp chưa chọn';
-                btn.classList.remove('show-all-btn');
-            }
+    const btn = document.getElementById('hideUnselectedBtn');
+    const isHiding = !btn.classList.contains('show-all-btn');
+    
+    document.querySelectorAll('.class-slot').forEach(slot => {
+        if (!slot.classList.contains('selected')) {
+            slot.classList.toggle('hidden');
         }
+    });
+
+    // Toggle button text and style
+    if (isHiding) {
+        btn.textContent = 'Hiển thị tất cả lớp';
+        btn.classList.add('show-all-btn');
+    } else {
+        btn.textContent = 'Ẩn các lớp chưa chọn';
+        btn.classList.remove('show-all-btn');
+    }
+}
 
         // Add event listener for the hide unselected button
         document.getElementById('hideUnselectedBtn').addEventListener('click', toggleUnselectedClasses);
@@ -942,8 +1050,58 @@
             warning.className = 'warning';
             warning.textContent = message;
             warnings.appendChild(warning);
-            setTimeout(() => warning.remove(), 5000);
+    
+            // Remove this specific warning after 5 seconds
+            setTimeout(() => {
+                if (warnings.contains(warning)) {
+                  warning.remove();
+                }
+            }, 5000);
         }
+        function exportToTxt() {
+            let content = "KẾ HOẠCH ĐĂNG KÝ HỌC PHẦN\n";
+            content += "=========================\n\n";
+            content += "Hãy nhớ đăng ký từ 8h ngày 02/1/2025\n\n";
+    
+            const now = new Date();
+            content += `Thời gian xuất: ${now.toLocaleString('vi-VN')}\n\n`;
+    
+            content += "THỜI GIAN CÁC CA HỌC:\n";
+            content += "Ca 1: 7:00-9:30\n";
+            content += "Ca 2: 9:45-12:15\n";
+            content += "Ca 3: 12:45-15:15\n";
+            content += "Ca 4: 15:30-18:00\n\n";
+
+            content += "CÁC LỚP ĐÃ CHỌN:\n";
+            content += "=========================\n\n";
+
+            const organizedList = document.getElementById('organizedList');
+            const timeGroups = organizedList.getElementsByClassName('time-group');
+    
+            Array.from(timeGroups).forEach(group => {
+                    const timeHeader = group.getElementsByClassName('time-header')[0].textContent;
+                    const subjects = group.getElementsByClassName('subject-item');
+        
+                    content += `${timeHeader}:\n`;
+                    Array.from(subjects).forEach(subject => {
+                      content += `${subject.textContent}\n`;
+                    });
+                    content += "\n";
+            });
+
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `ke_hoach_dang_ky_${now.getTime()}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('exportBtn').addEventListener('click', exportToTxt);
+        });
 
         // Initialize
         initializeTimetable();
