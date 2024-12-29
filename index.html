@@ -65,6 +65,39 @@
             background-color: #ffe6e6;
             border-radius: 4px;
         }
+        .class-slot.hidden {
+            display: none;
+        }
+        .time-group {
+            margin-bottom: 15px;
+            border-left: 3px solid #4CAF50;
+            padding-left: 10px;
+        }
+        .time-header {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .subject-item {
+            margin-left: 20px;
+            margin-bottom: 3px;
+        }
+        #hideUnselectedBtn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            display: none;
+        }
+        #hideUnselectedBtn:hover {
+            background-color: #45a049;
+        }
+        .show-all-btn {
+            background-color: #2196F3;
+        }
     </style>
 </head>
 <body>
@@ -79,9 +112,10 @@
     </ul>
         <div id="selectedClasses">
         <h3>Các lớp đã chọn:</h3>
-        <ul id="selectedList"></ul>
+        <div id="organizedList"></div>
     </div>
     <div id="warnings"></div>
+    <button id="hideUnselectedBtn">Ẩn các lớp chưa chọn</button>
     <div class="timetable" id="timetable">
         <div class="cell header">Ca</div>
         <div class="cell header">Thứ 2</div>
@@ -775,17 +809,108 @@
         }
 
         function updateSelectedClassesList() {
-            const selectedList = document.getElementById('selectedList');
-            selectedList.innerHTML = '';
+            const organizedList = document.getElementById('organizedList');
+            organizedList.innerHTML = '';
             
-            selectedClasses.forEach((classes, maHocPhan) => {
+            // Create a structured object to organize classes by time
+            const timeSlots = {};
+            
+            selectedClasses.forEach((classes) => {
                 classes.forEach(classInfo => {
-                    const li = document.createElement('li');
-                    li.textContent = `${classInfo.tenHocPhan} - Lớp ${classInfo.soThuTu} - Thứ ${classInfo.thu} ca ${classInfo.ca} - Phòng ${classInfo.phongHoc}`;
-                    selectedList.appendChild(li);
+                    const timeKey = `Thứ ${classInfo.thu} - Ca ${classInfo.ca}`;
+                    if (!timeSlots[timeKey]) {
+                        timeSlots[timeKey] = [];
+                    }
+                    timeSlots[timeKey].push(classInfo);
                 });
             });
+
+            // Sort by day and time
+            const sortedTimes = Object.keys(timeSlots).sort((a, b) => {
+                const [dayA, caA] = a.match(/\d+/g).map(Number);
+                const [dayB, caB] = b.match(/\d+/g).map(Number);
+                return dayA !== dayB ? dayA - dayB : caA - caB;
+            });
+
+            // Create the organized list
+            sortedTimes.forEach(timeKey => {
+                const timeGroup = document.createElement('div');
+                timeGroup.className = 'time-group';
+
+                const timeHeader = document.createElement('div');
+                timeHeader.className = 'time-header';
+                timeHeader.textContent = timeKey;
+                timeGroup.appendChild(timeHeader);
+
+                timeSlots[timeKey].forEach(classInfo => {
+                    const subjectItem = document.createElement('div');
+                    subjectItem.className = 'subject-item';
+                    subjectItem.textContent = `${classInfo.tenHocPhan} - Lớp ${classInfo.soThuTu} - Phòng ${classInfo.phongHoc}`;
+                    timeGroup.appendChild(subjectItem);
+                });
+
+                organizedList.appendChild(timeGroup);
+            });
+
+            // Show/hide the hide unselected button
+            const hideUnselectedBtn = document.getElementById('hideUnselectedBtn');
+            const isSelectionComplete = checkIfSelectionComplete();
+            hideUnselectedBtn.style.display = isSelectionComplete ? 'block' : 'none';
+            if (isSelectionComplete) {
+                hideUnselectedBtn.textContent = 'Ẩn các lớp chưa chọn';
+                hideUnselectedBtn.classList.remove('show-all-btn');
+            }
         }
+
+        function checkIfSelectionComplete() {
+            // Check if all required subjects are selected
+            const requiredSubjects = new Set(classData.map(c => c.maHocPhan));
+            const selectedSubjects = new Set(selectedClasses.keys());
+            
+            // Special check for English classes
+            const englishClasses = selectedClasses.get('E50.06.03') || [];
+            const isEnglishComplete = englishClasses.length === 2 && 
+                englishClasses.some(c => c.soThuTu.endsWith('.1')) && 
+                englishClasses.some(c => c.soThuTu.endsWith('.2'));
+
+            // Remove English from the check if it's complete
+            if (isEnglishComplete) {
+                requiredSubjects.delete('E50.06.03');
+                selectedSubjects.delete('E50.06.03');
+            }
+
+            // Check if all other subjects are selected
+            return [...requiredSubjects].every(subject => 
+                subject === 'E50.06.03' ? isEnglishComplete : selectedSubjects.has(subject)
+            );
+        }
+
+        function toggleUnselectedClasses() {
+            const btn = document.getElementById('hideUnselectedBtn');
+            const isHiding = btn.textContent === 'Ẩn các lớp chưa chọn';
+            
+            document.querySelectorAll('.class-slot').forEach(slot => {
+                if (!slot.classList.contains('selected')) {
+                    if (isHiding) {
+                        slot.classList.add('hidden');
+                    } else {
+                        slot.classList.remove('hidden');
+                    }
+                }
+            });
+
+            // Toggle button text and style
+            if (isHiding) {
+                btn.textContent = 'Hiển thị tất cả lớp';
+                btn.classList.add('show-all-btn');
+            } else {
+                btn.textContent = 'Ẩn các lớp chưa chọn';
+                btn.classList.remove('show-all-btn');
+            }
+        }
+
+        // Add event listener for the hide unselected button
+        document.getElementById('hideUnselectedBtn').addEventListener('click', toggleUnselectedClasses);
 
         function updateConflicts() {
             // Reset all disabled states
