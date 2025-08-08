@@ -1065,18 +1065,18 @@
         
         if (isSelected) {
             element.classList.remove('selected');
-            if (classInfo.maHocPhan === 'E50.06.03') {
-                const englishClasses = selectedClasses.get('E50.06.03') || [];
-                selectedClasses.set('E50.06.03', 
+            if (classInfo.maHocPhan === 'E50.07.03') {
+                const englishClasses = selectedClasses.get('E50.07.03') || [];
+                selectedClasses.set('E50.07.03', 
                     englishClasses.filter(c => c.soThuTu !== classInfo.soThuTu));
-                if (selectedClasses.get('E50.06.03').length === 0) {
-                    selectedClasses.delete('E50.06.03');
+                if (selectedClasses.get('E50.07.03').length === 0) {
+                    selectedClasses.delete('E50.07.03');
                 }
             } else {
                 selectedClasses.delete(classInfo.maHocPhan);
             }
         } else {
-            if (classInfo.maHocPhan === 'E50.06.03') {
+            if (classInfo.maHocPhan === 'E50.07.03') {
                 handleTACNIISelection(element, classInfo);
             } else {
                 handleRegularClassSelection(element, classInfo);
@@ -1089,7 +1089,7 @@
     }
 
     function handleTACNIISelection(element, classInfo) {
-        const englishClasses = selectedClasses.get('E50.06.03') || [];
+        const englishClasses = selectedClasses.get('E50.07.03') || [];
         
         if (englishClasses.length >= 2) {
             showWarning("Chỉ được chọn tối đa 2 lớp Tiếng Anh chuyên ngành II");
@@ -1109,7 +1109,7 @@
 
         if (!hasTimeConflict(classInfo)) {
             element.classList.add('selected');
-            selectedClasses.set('E50.06.03', [...englishClasses, classInfo]);
+            selectedClasses.set('E50.07.03', [...englishClasses, classInfo]);
         } else {
             showWarning("Lớp này bị trùng thời gian với lớp đã chọn");
         }
