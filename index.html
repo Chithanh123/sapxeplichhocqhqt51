@@ -682,7 +682,7 @@
                 phongHoc: 'D101',
                 giangVien: ''
             },
-                maHocPhan: 'Bổ trợ',
+           {   maHocPhan: 'Bổ trợ',
                 tenHocPhan: 'Luật Hiến pháp Việt Nam và các nước (Môn bổ trợ)',
                 lopHocPhan: 'LHPVN&CN-ALL',
                 soThuTu: '2',
@@ -1103,12 +1103,11 @@
     function checkMissingSubjects() {
         const missingSubjects = [];
         const requiredSubjects = [
-            { code: 'E50.07.03', name: 'Tiếng Anh chuyên ngành III' },
-            { code: 'FC.002.02', name: 'Kinh tế chính trị Mác - Lê Nin' },
-            { code: 'IL.003.02', name: 'Pháp luật đại cương' },
-            { code: 'IR.003.03', name: 'Phương pháp nghiên cứu quan hệ quốc tế' },
-            { code: 'IR.008.03', name: 'Lý luận quan hệ quốc tế' },
-            { code: 'IR.041.03', name: 'Lịch sử quan hệ quốc tế hiện đại 2' }
+            { code: 'E.014.03', name: 'Biên dịch I' },
+            { code: 'FC.005.02', name: 'Lịch sử Đảng cộng sản Việt Nam' },
+            { code: 'IR.025.03', name: 'Công tác ngoại giao' },
+            { code: 'IR.024.02', name: 'Kỹ thuật soạn thảo văn bản' },
+            { code: 'IR.006.03', name: 'Chính sách đối ngoại Việt Nam từ 1945 đến 1975' }
         ];
 
         requiredSubjects.forEach(subject => {
