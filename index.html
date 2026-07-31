@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lập kế hoạch đăng ký học phần cùng QHQT51</title>
+    <title>Lập kế hoạch đăng ký học phần QHQT51 — Học kỳ 5</title>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -31,6 +31,18 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Be Vietnam Pro', sans-serif;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
         }
 
         body {
@@ -71,6 +83,10 @@
             font-weight: 500;
         }
 
+        .notice-section {
+            margin-top: 2rem;
+        }
+
         .selected-classes-panel {
             background: white;
             border: 1px solid var(--gray-300);
@@ -78,6 +94,324 @@
             padding: 1.5rem;
             margin-bottom: 2rem;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .recommendation-panel {
+            background: linear-gradient(135deg, var(--light-blue), white 72%);
+            border: 1px solid #90caf9;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 0;
+            margin-bottom: 2rem;
+        }
+
+        .recommendation-header {
+            margin-bottom: 1.25rem;
+        }
+
+        .recommendation-header h2 {
+            color: var(--primary-blue);
+            font-size: 1.25rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .recommendation-header p {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+        }
+
+        .preference-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 1rem;
+        }
+
+        .preference-field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .preference-field label,
+        .preference-label {
+            color: var(--gray-800);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .preference-field select {
+            width: 100%;
+            min-height: 44px;
+            padding: 0.65rem 0.75rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 6px;
+            background: white;
+            color: var(--gray-800);
+            font: inherit;
+        }
+
+        .preference-field select:focus {
+            outline: 3px solid rgba(25, 118, 210, 0.18);
+            border-color: var(--primary-blue);
+        }
+
+        .preference-checkbox {
+            display: flex;
+            align-items: center;
+            min-height: 44px;
+            padding: 0.65rem 0.75rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .preference-checkbox input,
+        .completed-course-option input {
+            width: 18px;
+            height: 18px;
+            margin-right: 0.55rem;
+            accent-color: var(--primary-blue);
+        }
+
+        .completed-courses {
+            margin-top: 1rem;
+            padding: 0.85rem 1rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.75);
+        }
+
+        .completed-courses summary {
+            color: var(--gray-800);
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .completed-courses p {
+            margin: 0.65rem 0;
+            color: var(--gray-600);
+            font-size: 0.85rem;
+        }
+
+        .completed-course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 0.6rem;
+        }
+
+        .completed-course-option {
+            display: flex;
+            align-items: flex-start;
+            padding: 0.65rem;
+            border: 1px solid var(--gray-200);
+            border-radius: 6px;
+            background: white;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .recommendation-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1.25rem;
+        }
+
+        .recommendation-result {
+            display: none;
+            margin-top: 1.25rem;
+            padding: 1rem;
+            border: 1px solid #a5d6a7;
+            border-radius: 8px;
+            background: var(--success-bg);
+            color: var(--success-text);
+        }
+
+        .recommendation-result.error {
+            border-color: var(--primary-red);
+            background: var(--light-red);
+            color: var(--primary-red);
+        }
+
+        .recommendation-result h3 {
+            margin-bottom: 0.65rem;
+            font-size: 1rem;
+        }
+
+        .recommendation-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+            gap: 0.65rem;
+            margin-top: 0.85rem;
+        }
+
+        .recommendation-metric {
+            padding: 0.65rem;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.72);
+            font-size: 0.82rem;
+        }
+
+        .recommendation-metric strong {
+            display: block;
+            margin-bottom: 0.15rem;
+        }
+
+        .planning-panel {
+            margin-top: 0;
+            padding: 1.5rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .planning-header {
+            margin-bottom: 1.25rem;
+        }
+
+        .planning-header h2 {
+            color: var(--primary-blue);
+            font-size: 1.25rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .planning-header p,
+        .plan-section > p {
+            color: var(--gray-600);
+            font-size: 0.88rem;
+        }
+
+        .planning-layout {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
+        .plan-section {
+            min-width: 0;
+            padding: 1rem;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            background: var(--gray-100);
+        }
+
+        .plan-section h3 {
+            margin-bottom: 0.35rem;
+            color: var(--gray-800);
+            font-size: 1rem;
+        }
+
+        .plan-toolbar {
+            display: flex;
+            gap: 0.65rem;
+            margin: 0.9rem 0;
+        }
+
+        .plan-name-input {
+            min-width: 0;
+            flex: 1;
+            padding: 0.65rem 0.75rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 6px;
+            font: inherit;
+        }
+
+        .plan-name-input:focus {
+            outline: 3px solid rgba(25, 118, 210, 0.18);
+            border-color: var(--primary-blue);
+        }
+
+        .plan-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+
+        .plan-empty {
+            padding: 0.9rem;
+            border: 1px dashed var(--gray-300);
+            border-radius: 6px;
+            color: var(--gray-600);
+            background: white;
+            font-size: 0.85rem;
+        }
+
+        .subject-plan-card,
+        .schedule-plan-card {
+            padding: 0.85rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 7px;
+            background: white;
+        }
+
+        .plan-card-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.75rem;
+            margin-bottom: 0.55rem;
+        }
+
+        .plan-card-header strong {
+            color: var(--gray-800);
+            font-size: 0.9rem;
+        }
+
+        .plan-card-meta {
+            color: var(--gray-600);
+            font-size: 0.78rem;
+        }
+
+        .subject-plan-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.65rem;
+            padding: 0.55rem 0;
+            border-top: 1px solid var(--gray-200);
+            font-size: 0.82rem;
+        }
+
+        .plan-card-header + .subject-plan-option {
+            border-top: 0;
+        }
+
+        .plan-card-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 0.4rem;
+        }
+
+        .action-button.small {
+            padding: 0.45rem 0.7rem;
+            font-size: 0.78rem;
+        }
+
+        .action-button.outline {
+            border: 1px solid var(--primary-blue);
+            background: white;
+            color: var(--primary-blue);
+        }
+
+        .action-button.outline:hover {
+            background: var(--light-blue);
+        }
+
+        .action-button:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
+        .planning-message {
+            display: none;
+            margin-top: 0.9rem;
+            padding: 0.75rem;
+            border-radius: 6px;
+            background: var(--light-blue);
+            color: var(--secondary-blue);
+            font-size: 0.85rem;
         }
 
         .panel-header {
@@ -219,6 +553,46 @@
             display: none;
         }
 
+        .class-slot.completed-course {
+            display: none !important;
+        }
+
+        .course-category {
+            display: inline-block;
+            margin-bottom: 0.4rem;
+            padding: 0.15rem 0.45rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.72);
+            color: var(--gray-800);
+            font-size: 0.72rem;
+            font-weight: 600;
+        }
+
+        .class-slot.supplementary {
+            background: #fff8e1;
+            border-color: #ffca28;
+        }
+
+        .class-slot.language-skill {
+            background: #f3e5f5;
+            border-color: #ab47bc;
+        }
+
+        .class-slot.supplementary:hover {
+            background: #ffecb3;
+        }
+
+        .class-slot.language-skill:hover {
+            background: #e1bee7;
+        }
+
+        .class-slot.supplementary.selected,
+        .class-slot.language-skill.selected {
+            background: var(--success-bg);
+            border-color: var(--success-border);
+            color: var(--success-text);
+        }
+
         .action-buttons {
             display: flex;
             gap: 1rem;
@@ -301,6 +675,21 @@
                 flex-direction: column;
             }
 
+            .recommendation-actions {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .planning-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .plan-toolbar,
+            .subject-plan-option {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
             .action-button {
                 width: 100%;
             }
@@ -319,10 +708,10 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Lập kế hoạch đăng ký học phần cùng QHQT51 ở Học kỳ 4</h1>
+            <h1>Lập kế hoạch đăng ký học phần cùng QHQT51 ở Học kỳ 5</h1>
             <div class="important-notice">
                 ĐÂY KHÔNG PHẢI LÀ TRANG WEB CHÍNH THỨC<br>
-                Hãy nhớ đăng ký học phần chính thức trên hệ thống QLĐT vào 8h ngày 01/02/2026
+                Hãy nhớ đăng ký học phần chính thức trên hệ thống QLĐT vào 8h ngày 03/8/2026
             </div>
         </div>
 
@@ -342,23 +731,6 @@
 
         <!-- Warning Message -->
         <div id="warningMessage" class="warning-message"></div>
-
-        <!-- Important Notices -->
-        <div class="notice-section">
-            <div class="important-notice">
-                <strong>Nguyên tắc áp dụng:</strong>
-                <ul>
-                    <li>Đăng ký một lớp cho mỗi học phần</li>
-                    <li>Không được đăng ký các lớp bị trùng thời gian học</li>
-                    <li>Phải chọn 1 môn bổ trợ (3 tín chỉ)</li>
-                <strong>Lưu ý khác:</strong>
-                <ul>
-                    <li>Website phù hợp nhất với các bạn học ngoại ngữ Tiếng Anh trình độ nâng cao</li>
-                    <li>Website có thể xuất lịch thành file .txt</li>
-                    <li>Website có thể có sai sót, hãy kiểm tra kỹ</li>
-                </ul>
-            </div>
-        </div>
 
         <!-- Timetable -->
         <div class="timetable-container">
@@ -426,11 +798,122 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- Important Notices -->
+        <div class="notice-section">
+            <div class="important-notice">
+                <strong>Nguyên tắc áp dụng:</strong>
+                <ul>
+                    <li>Đăng ký một lớp cho mỗi học phần bắt buộc</li>
+                    <li>Không được đăng ký các lớp bị trùng thời gian học</li>
+                    <li>Môn bổ trợ là hạng mục <strong>có thể chọn</strong>; nếu chọn thì tối đa 1 môn</li>
+                    <li>Môn kỹ năng ngoại ngữ tự chọn là hạng mục <strong>có thể chọn</strong>; nếu chọn thì tối đa 1 môn</li>
+                </ul>
+                <strong>Lưu ý khác:</strong>
+                <ul>
+                    <li>Lớp ngoại ngữ trong lịch là Biên dịch II, ngành QHQT, khóa 51</li>
+                    <li>Website có thể xuất lịch thành file .txt</li>
+                    <li>Website có thể có sai sót, hãy kiểm tra kỹ</li>
+                </ul>
+            </div>
+        </div>
+
+        <section class="recommendation-panel" aria-labelledby="recommendationTitle">
+            <div class="recommendation-header">
+                <h2 id="recommendationTitle">Gợi ý thời khóa biểu</h2>
+                <p>Chọn trước những lớp bạn muốn giữ trên bảng TKB. Hệ thống chỉ gợi ý các học phần còn thiếu, không thay đổi các lớp đã chọn và vẫn tối ưu theo các tiêu chí bên dưới.</p>
+                <p>Thứ tự xét ưu tiên: tránh Thứ 7 → phân bố ngày học → tòa nhà → giờ bắt đầu; số ca trống được dùng để phá hòa.</p>
+            </div>
+            <div class="preference-grid">
+                <div class="preference-field">
+                    <label for="densityPreference">Phân bố ngày học</label>
+                    <select id="densityPreference">
+                        <option value="compact">Học ít ngày nhất</option>
+                        <option value="spread">Trải đều trong tuần</option>
+                    </select>
+                </div>
+                <div class="preference-field">
+                    <label for="buildingPreference">Ưu tiên tòa nhà</label>
+                    <select id="buildingPreference">
+                        <option value="any">Không ưu tiên</option>
+                        <option value="A">Tòa A (gồm cả HTB)</option>
+                        <option value="D">Tòa D</option>
+                    </select>
+                </div>
+                <div class="preference-field">
+                    <label for="timePreference">Giờ bắt đầu ngày học</label>
+                    <select id="timePreference">
+                        <option value="any">Không ưu tiên</option>
+                        <option value="early">Sớm — ưu tiên bắt đầu Ca 1</option>
+                        <option value="late">Muộn — ưu tiên bắt đầu Ca 2</option>
+                    </select>
+                </div>
+                <div class="preference-field">
+                    <span class="preference-label">Ngày cần tránh</span>
+                    <label class="preference-checkbox" for="avoidSaturdayPreference">
+                        <input id="avoidSaturdayPreference" type="checkbox">
+                        <span>Tránh Thứ 7 nếu có thể</span>
+                    </label>
+                </div>
+                <div class="preference-field">
+                    <label for="supplementaryPreference">Môn bổ trợ</label>
+                    <select id="supplementaryPreference">
+                        <option value="none">Không chọn</option>
+                        <option value="any">Chọn một môn bất kỳ</option>
+                    </select>
+                </div>
+                <div class="preference-field">
+                    <label for="languageSkillPreference">Kỹ năng ngoại ngữ tự chọn</label>
+                    <select id="languageSkillPreference">
+                        <option value="none">Không chọn</option>
+                        <option value="any">Chọn một môn bất kỳ</option>
+                    </select>
+                </div>
+            </div>
+            <details class="completed-courses">
+                <summary>Đã học/học vượt một số môn</summary>
+                <p>Tick các môn đã hoàn thành. Các lớp của môn đó sẽ được ẩn, không bị báo thiếu và không được đưa vào lịch gợi ý.</p>
+                <div id="completedCourseOptions" class="completed-course-grid"></div>
+            </details>
+            <div class="recommendation-actions">
+                <button id="recommendBtn" class="action-button primary" type="button">Gợi ý phần còn thiếu</button>
+                <span>Các lớp đang chọn được giữ cố định; bạn vẫn có thể chỉnh lại sau khi nhận gợi ý.</span>
+            </div>
+            <div id="recommendationResult" class="recommendation-result" aria-live="polite"></div>
+        </section>
+
+        <section class="planning-panel" aria-labelledby="planningTitle">
+            <div class="planning-header">
+                <h2 id="planningTitle">Lập phương án</h2>
+                <p>Lưu nhiều lựa chọn lớp cho từng môn hoặc lưu toàn bộ thời khóa biểu để so sánh và chuyển đổi nhanh. Các phương án được giữ trên thiết bị này.</p>
+            </div>
+            <div class="planning-layout">
+                <div class="plan-section">
+                    <h3>Phương án cho từng môn</h3>
+                    <p>Chọn lớp trên bảng TKB, sau đó lưu. Chọn một nhóm khác và lưu lại để tạo thêm phương án cho cùng môn.</p>
+                    <div class="plan-toolbar">
+                        <button id="saveSubjectPlansBtn" class="action-button primary" type="button">Lưu các lớp đang chọn</button>
+                    </div>
+                    <div id="subjectPlansList" class="plan-list"></div>
+                </div>
+                <div class="plan-section">
+                    <h3>Phương án tổng thể</h3>
+                    <p>Lưu toàn bộ các lớp đang chọn thành một thời khóa biểu riêng để có thể khôi phục sau.</p>
+                    <div class="plan-toolbar">
+                        <label class="sr-only" for="schedulePlanName">Tên phương án</label>
+                        <input id="schedulePlanName" class="plan-name-input" type="text" maxlength="60" placeholder="Ví dụ: Phương án ít ngày">
+                        <button id="saveSchedulePlanBtn" class="action-button primary" type="button">Lưu phương án</button>
+                    </div>
+                    <div id="schedulePlansList" class="plan-list"></div>
+                </div>
+            </div>
+            <div id="planningMessage" class="planning-message" aria-live="polite"></div>
+        </section>
     </div>
 </body>
 <script>
-    // Class data will remain the same as in original file
-    const classData = [
+    // Dữ liệu học kỳ trước được giữ lại để đối chiếu, không dùng để hiển thị.
+    const legacyClassData = false && [
             // CNXHKH
             {
                 maHocPhan: 'FC.005.02',
@@ -904,13 +1387,115 @@
             },
         ];
 
+    const rawClassData = [
+        ["FC.004.02","Tư tưởng Hồ Chí Minh","1",3,1,"A306","Nguyễn Mai Phương ","Bắt buộc","FC.004.02"],
+        ["FC.004.02","Tư tưởng Hồ Chí Minh","2",3,2,"A306","Nguyễn Thị Mai Anh ","Bắt buộc","FC.004.02"],
+        ["FC.004.02","Tư tưởng Hồ Chí Minh","3",6,1,"A306","Nguyễn Văn Tài ","Bắt buộc","FC.004.02"],
+        ["FC.004.02","Tư tưởng Hồ Chí Minh","4",6,2,"A306","Nguyễn Văn Tài ","Bắt buộc","FC.004.02"],
+        ["FC.004.02","Tư tưởng Hồ Chí Minh","5",2,2,"A204","Nguyễn Hải Yến","Bắt buộc","FC.004.02"],
+        ["IR.026.03","Đàm phán quốc tế","1",2,1,"D208","Tôn Sinh Thành","Bắt buộc","IR.026.03"],
+        ["IR.026.03","Đàm phán quốc tế","2",2,2,"D209","Tôn Sinh Thành","Bắt buộc","IR.026.03"],
+        ["IR.026.03","Đàm phán quốc tế","3",4,1,"HTB","Khuất Thị Hồng Hạnh","Bắt buộc","IR.026.03"],
+        ["IR.026.03","Đàm phán quốc tế","4",4,2,"HTB","Khuất Thị Hồng Hạnh","Bắt buộc","IR.026.03"],
+        ["IR.032.03","Quản trị toàn cầu","1",3,1,"A204","Phạm Hoàng Sơn, Đỗ Kim Giang, Philippe Le Prestre","Bắt buộc","IR.032.03"],
+        ["IR.032.03","Quản trị toàn cầu","2",3,2,"A204","Đỗ Kim Giang, Lê Thị Hoài An","Bắt buộc","IR.032.03"],
+        ["IR.032.03","Quản trị toàn cầu","3",6,1,"A204","Đỗ Kim Giang, Lê Thị Hoài An","Bắt buộc","IR.032.03"],
+        ["IR.032.03","Quản trị toàn cầu","4",6,2,"A204","Đỗ Kim Giang, Lê Thị Hoài An","Bắt buộc","IR.032.03"],
+        ["IR.032.03","Quản trị toàn cầu","5",5,2,"A204","Phạm Hoàng Sơn, Lê thị Hoài An","Bắt buộc","IR.032.03"],
+        ["IR.011.03","Quan hệ giữa các nước lớn sau chiến tranh lạnh","1",3,1,"A303","Đỗ Sơn Hải","Bắt buộc","IR.011.03"],
+        ["IR.011.03","Quan hệ giữa các nước lớn sau chiến tranh lạnh","2",3,2,"A303","Đỗ Sơn Hải","Bắt buộc","IR.011.03"],
+        ["IR.011.03","Quan hệ giữa các nước lớn sau chiến tranh lạnh","3",6,1,"A303","Đỗ Kim Giang, Đinh Lê Hồng Giang","Bắt buộc","IR.011.03"],
+        ["IR.011.03","Quan hệ giữa các nước lớn sau chiến tranh lạnh","4",6,2,"A303","Đỗ Kim Giang, Đinh Lê Hồng Giang","Bắt buộc","IR.011.03"],
+        ["IR.011.03","Quan hệ giữa các nước lớn sau chiến tranh lạnh","5",7,1,"A303","Đỗ Kim Giang, Đinh Lê Hồng Giang","Bắt buộc","IR.011.03"],
+        ["IR.007.03","Chính sách đối ngoại Việt Nam từ 1975 đến nay","1",4,2,"A300","Nguyễn Vũ Tùng","Bắt buộc","IR.007.03"],
+        ["IR.007.03","Chính sách đối ngoại Việt Nam từ 1975 đến nay","2",4,1,"A300","Nguyễn Tuấn Việt","Bắt buộc","IR.007.03"],
+        ["IR.007.03","Chính sách đối ngoại Việt Nam từ 1975 đến nay","3",7,2,"A400","Tô Hải Đăng, Vụ CSĐN","Bắt buộc","IR.007.03"],
+        ["E.015.03","Biên dịch II","1",5,2,"A703","","Bắt buộc","E.015.03"],
+        ["E.015.03","Biên dịch II","2",7,1,"A703","","Bắt buộc","E.015.03"],
+        ["E.015.03","Biên dịch II","3",4,1,"A601","","Bắt buộc","E.015.03"],
+        ["E.015.03","Biên dịch II","4",4,2,"A601","","Bắt buộc","E.015.03"],
+        ["E.015.03","Biên dịch II","5",4,1,"A603","","Bắt buộc","E.015.03"],
+        ["E.015.03","Biên dịch II","6",4,2,"A603","","Bắt buộc","E.015.03"],
+        ["E.015.03","Biên dịch II","7",7,2,"A509","","Bắt buộc","E.015.03"],
+        ["IE.006.03","Quan hệ kinh tế quốc tế","5",4,1,"A502","Hoàng Ngọc Bích","Môn bổ trợ — có thể chọn","optional:supplementary"],
+        ["IE.006.03","Quan hệ kinh tế quốc tế","6",3,4,"D101","Nguyễn Hà Phương","Môn bổ trợ — có thể chọn","optional:supplementary"],
+        ["IE.006.03","Quan hệ kinh tế quốc tế","7",6,4,"A306","Nguyễn Hà Phương","Môn bổ trợ — có thể chọn","optional:supplementary"],
+        ["IE.006.03","Quan hệ kinh tế quốc tế","8",5,4,"A701","Hoàng Ngọc Bích","Môn bổ trợ — có thể chọn","optional:supplementary"],
+        ["IE.042.03","Kinh doanh quốc tế","5",4,3,"A702","Nguyễn Tường Lan","Môn bổ trợ — có thể chọn","optional:supplementary"],
+        ["IE.042.03","Kinh doanh quốc tế","6",5,4,"A300","Lê Hoàng Quỳnh Anh","Môn bổ trợ — có thể chọn","optional:supplementary"],
+        ["IE.042.03","Kinh doanh quốc tế","7",6,4,"A303","Lê Hoàng Quỳnh Anh","Môn bổ trợ — có thể chọn","optional:supplementary"],
+        ["IE.042.03","Kinh doanh quốc tế","8",7,3,"A604","Trịnh Ngọc Hoài Anh, Trịnh Hoàng Trang Linh","Môn bổ trợ — có thể chọn","optional:supplementary"],
+        ["IL.005.03","Công pháp quốc tế","5",3,3,"D110","Hoàng Thị Ngọc Anh, Vũ Thị Ngọc Trang","Môn bổ trợ — có thể chọn","optional:supplementary"],
+        ["IL.005.03","Công pháp quốc tế","6",4,3,"A705","Phạm Lan Dung, Trần Hữu Duy Minh","Môn bổ trợ — có thể chọn","optional:supplementary"],
+        ["IL.005.03","Công pháp quốc tế","7",5,4,"A702","Vũ Thị Ngọc Trang","Môn bổ trợ — có thể chọn","optional:supplementary"],
+        ["IL.005.03","Công pháp quốc tế","8",6,4,"A702","Vũ Thị Ngọc Trang, Bùi Hương Giang","Môn bổ trợ — có thể chọn","optional:supplementary"],
+        ["IC.061.03","Đại cương truyền thông quốc tế","1",2,1,"A502","Nguyễn Minh Tuấn","Môn bổ trợ — có thể chọn","optional:supplementary"],
+        ["IC.061.03","Đại cương truyền thông quốc tế","2",2,2,"A502","Nguyễn Minh Tuấn","Môn bổ trợ — có thể chọn","optional:supplementary"],
+        ["IC.061.03","Đại cương truyền thông quốc tế","3",4,3,"HTB","Hồ Thanh Tùng","Môn bổ trợ — có thể chọn","optional:supplementary"],
+        ["IC.061.03","Đại cương truyền thông quốc tế","4",4,4,"HTB","Hồ Thanh Tùng","Môn bổ trợ — có thể chọn","optional:supplementary"],
+        ["IC.010.03","Ngoại giao văn hóa","7",3,3,"D205","Đỗ Huyền Trang","Môn bổ trợ — có thể chọn","optional:supplementary"],
+        ["IC.010.03","Ngoại giao văn hóa","8",3,4,"D205","Trần Thị Hương","Môn bổ trợ — có thể chọn","optional:supplementary"],
+        ["IC.010.03","Ngoại giao văn hóa","9",5,3,"D205","Trần Thị Hương","Môn bổ trợ — có thể chọn","optional:supplementary"],
+        ["IC.010.03","Ngoại giao văn hóa","10",5,4,"D205","Trần Thị Hương","Môn bổ trợ — có thể chọn","optional:supplementary"],
+        ["E.024.03","Kỹ năng thuyết trình","1",6,1,"D108","Phạm Hải Nam","Kỹ năng ngoại ngữ tự chọn — có thể chọn","optional:language-skill"],
+        ["E.024.03","Kỹ năng thuyết trình","2",6,2,"D108","Phạm Hải Nam","Kỹ năng ngoại ngữ tự chọn — có thể chọn","optional:language-skill"],
+        ["E.057.03","Kỹ năng làm việc nhóm","1",6,1,"D109","Phạm Đức Minh","Kỹ năng ngoại ngữ tự chọn — có thể chọn","optional:language-skill"],
+        ["E.057.03","Kỹ năng làm việc nhóm","2",6,2,"D109","Phạm Đức Minh","Kỹ năng ngoại ngữ tự chọn — có thể chọn","optional:language-skill"],
+        ["E.024.03","Kỹ năng thuyết trình","3",7,1,"D108","Phạm Đức Minh","Kỹ năng ngoại ngữ tự chọn — có thể chọn","optional:language-skill"],
+        ["E.024.03","Kỹ năng thuyết trình","4",7,2,"D108","Phạm Đức Minh","Kỹ năng ngoại ngữ tự chọn — có thể chọn","optional:language-skill"],
+        ["E.041.03","Kỹ năng tư duy phản biện","1",7,2,"D109","Nguyễn Đỗ Ngân Giang","Kỹ năng ngoại ngữ tự chọn — có thể chọn","optional:language-skill"],
+        ["E.043.03","Kỹ năng viết học thuật","3",5,4,"D108","Nguyễn Đỗ Ngân Giang","Kỹ năng ngoại ngữ tự chọn — có thể chọn","optional:language-skill"],
+        ["E.032.03","Xây dựng dự án","4",2,4,"D108","Nguyễn Thị Mỹ Hòa","Kỹ năng ngoại ngữ tự chọn — có thể chọn","optional:language-skill"],
+        ["E.032.03","Xây dựng dự án","5",5,3,"D108","Nguyễn Thị Mỹ Hòa","Kỹ năng ngoại ngữ tự chọn — có thể chọn","optional:language-skill"]
+    ];
+
+    const classData = rawClassData.map(([
+        maHocPhan,
+        tenHocPhan,
+        soThuTu,
+        thu,
+        ca,
+        phongHoc,
+        giangVien,
+        loaiHocPhan,
+        selectionKey
+    ]) => ({
+        maHocPhan,
+        tenHocPhan,
+        soThuTu,
+        thu,
+        ca,
+        phongHoc,
+        giangVien: giangVien.trim(),
+        loaiHocPhan,
+        selectionKey
+    }));
+
     // Global state management
     const selectedClasses = new Map();
+    const requiredSelectionKeys = [
+        'FC.004.02',
+        'IR.026.03',
+        'IR.032.03',
+        'IR.011.03',
+        'IR.007.03',
+        'E.015.03'
+    ];
+    const planningStorageKey = 'qhqt51-planning-v1';
+    let planningState = {
+        subjectPlans: {},
+        schedulePlans: []
+    };
     let isHidingUnselected = false;
 
     document.addEventListener('DOMContentLoaded', function() {
+        loadPlanningState();
         initializeTimetable();
+        initializeCompletedCourseOptions();
         setupEventListeners();
+        applyCompletedCourseVisibility();
+        renderPlanningState();
+        checkMissingSubjects();
     });
 
     function initializeTimetable() {
@@ -920,8 +1505,16 @@
                 const classSlot = document.createElement('div');
                 classSlot.className = 'class-slot';
                 classSlot.dataset.classInfo = JSON.stringify(classInfo);
+
+                if (classInfo.selectionKey === 'optional:supplementary') {
+                    classSlot.classList.add('supplementary');
+                } else if (classInfo.selectionKey === 'optional:language-skill') {
+                    classSlot.classList.add('language-skill');
+                }
                 
-                let displayText = `${classInfo.tenHocPhan}<br>(${classInfo.lopHocPhan}-${classInfo.soThuTu})<br>`;
+                let displayText = `<span class="course-category">${classInfo.loaiHocPhan}</span><br>`;
+                displayText += `${classInfo.tenHocPhan}<br>`;
+                displayText += `(Mã HP: ${classInfo.maHocPhan} · Nhóm ${classInfo.soThuTu})<br>`;
                 displayText += `Phòng: ${classInfo.phongHoc}`;
                 if (classInfo.giangVien) {
                     displayText += `<br>GV: ${classInfo.giangVien}`;
@@ -934,29 +1527,503 @@
         });
     }
 
+    function initializeCompletedCourseOptions() {
+        const container = document.getElementById('completedCourseOptions');
+        const addedCourseCodes = new Set();
+
+        classData.forEach(course => {
+            if (addedCourseCodes.has(course.maHocPhan)) return;
+            addedCourseCodes.add(course.maHocPhan);
+
+            const label = document.createElement('label');
+            label.className = 'completed-course-option';
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.className = 'completed-course-checkbox';
+            checkbox.value = course.maHocPhan;
+
+            const text = document.createElement('span');
+            text.textContent = `${course.tenHocPhan} (${course.maHocPhan}) — ${course.loaiHocPhan}`;
+
+            label.appendChild(checkbox);
+            label.appendChild(text);
+            container.appendChild(label);
+        });
+    }
+
+    function getCompletedCourseKeys() {
+        return new Set(
+            Array.from(
+                document.querySelectorAll('.completed-course-checkbox:checked')
+            ).map(checkbox => checkbox.value)
+        );
+    }
+
+    function applyCompletedCourseVisibility() {
+        const completedCourseKeys = getCompletedCourseKeys();
+
+        document.querySelectorAll('.class-slot').forEach(element => {
+            const classInfo = JSON.parse(element.dataset.classInfo);
+            const isCompleted = completedCourseKeys.has(classInfo.maHocPhan);
+            element.classList.toggle('completed-course', isCompleted);
+
+            if (isCompleted) {
+                element.classList.remove('selected', 'disabled');
+                const remainingSelectedClasses = (
+                    selectedClasses.get(classInfo.selectionKey) || []
+                ).filter(
+                    selectedClass => selectedClass.maHocPhan !== classInfo.maHocPhan
+                );
+                if (remainingSelectedClasses.length > 0) {
+                    selectedClasses.set(
+                        classInfo.selectionKey,
+                        remainingSelectedClasses
+                    );
+                } else {
+                    selectedClasses.delete(classInfo.selectionKey);
+                }
+            } else {
+                element.style.display = isHidingUnselected
+                    && !element.classList.contains('selected')
+                    ? 'none'
+                    : 'block';
+            }
+        });
+
+        updateSelectedClassesList();
+        updateConflicts();
+        checkMissingSubjects();
+    }
+
+    function getClassIdentity(classInfo) {
+        return [
+            classInfo.maHocPhan,
+            classInfo.soThuTu,
+            classInfo.thu,
+            classInfo.ca
+        ].join('|');
+    }
+
+    function getClassReference(classInfo) {
+        return {
+            maHocPhan: classInfo.maHocPhan,
+            soThuTu: classInfo.soThuTu,
+            thu: classInfo.thu,
+            ca: classInfo.ca
+        };
+    }
+
+    function resolveClassReference(reference) {
+        return classData.find(classInfo =>
+            classInfo.maHocPhan === reference.maHocPhan
+            && classInfo.soThuTu === reference.soThuTu
+            && classInfo.thu === reference.thu
+            && classInfo.ca === reference.ca
+        ) || null;
+    }
+
+    function getClassByIdentity(identity) {
+        return classData.find(
+            classInfo => getClassIdentity(classInfo) === identity
+        ) || null;
+    }
+
+    function getSelectedClassesArray() {
+        return Array.from(selectedClasses.values()).flat();
+    }
+
+    function escapeHtml(value) {
+        return String(value)
+            .replaceAll('&', '&amp;')
+            .replaceAll('<', '&lt;')
+            .replaceAll('>', '&gt;')
+            .replaceAll('"', '&quot;')
+            .replaceAll("'", '&#039;');
+    }
+
+    function loadPlanningState() {
+        try {
+            const storedState = localStorage.getItem(planningStorageKey);
+            if (!storedState) return;
+
+            const parsedState = JSON.parse(storedState);
+            const normalizedSubjectPlans = {};
+
+            Object.entries(parsedState.subjectPlans || {}).forEach(
+                ([courseCode, references]) => {
+                    if (!Array.isArray(references)) return;
+                    const validReferences = references
+                        .map(resolveClassReference)
+                        .filter(Boolean)
+                        .map(getClassReference);
+                    if (validReferences.length > 0) {
+                        normalizedSubjectPlans[courseCode] = validReferences;
+                    }
+                }
+            );
+
+            const normalizedSchedulePlans = Array.isArray(parsedState.schedulePlans)
+                ? parsedState.schedulePlans
+                    .map(plan => ({
+                        id: String(plan.id || ''),
+                        name: String(plan.name || 'Phương án'),
+                        savedAt: String(plan.savedAt || ''),
+                        classes: Array.isArray(plan.classes)
+                            ? plan.classes
+                                .map(resolveClassReference)
+                                .filter(Boolean)
+                                .map(getClassReference)
+                            : []
+                    }))
+                    .filter(plan => plan.id && plan.classes.length > 0)
+                : [];
+
+            planningState = {
+                subjectPlans: normalizedSubjectPlans,
+                schedulePlans: normalizedSchedulePlans
+            };
+        } catch (error) {
+            planningState = {
+                subjectPlans: {},
+                schedulePlans: []
+            };
+        }
+    }
+
+    function persistPlanningState() {
+        try {
+            localStorage.setItem(planningStorageKey, JSON.stringify(planningState));
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
+
+    function showPlanningMessage(message) {
+        const messageBox = document.getElementById('planningMessage');
+        messageBox.textContent = message;
+        messageBox.style.display = 'block';
+    }
+
+    function findClassSlotElement(classInfo) {
+        return Array.from(document.querySelectorAll('.class-slot')).find(element => {
+            const slotInfo = JSON.parse(element.dataset.classInfo);
+            return getClassIdentity(slotInfo) === getClassIdentity(classInfo);
+        }) || null;
+    }
+
+    function hasTimeConflictOutsideSelection(classInfo) {
+        let hasConflict = false;
+
+        selectedClasses.forEach((classes, selectionKey) => {
+            if (selectionKey === classInfo.selectionKey) return;
+            classes.forEach(selectedClass => {
+                if (
+                    selectedClass.thu === classInfo.thu
+                    && selectedClass.ca === classInfo.ca
+                ) {
+                    hasConflict = true;
+                }
+            });
+        });
+
+        return hasConflict;
+    }
+
+    function selectPlannedClass(classInfo) {
+        if (getCompletedCourseKeys().has(classInfo.maHocPhan)) {
+            showPlanningMessage('Môn này đang được đánh dấu đã học/học vượt.');
+            return false;
+        }
+
+        if (hasTimeConflictOutsideSelection(classInfo)) {
+            showWarning('Lớp trong phương án bị trùng thời gian với lớp đang chọn');
+            showPlanningMessage('Không thể áp dụng lớp này vì bị trùng ca.');
+            return false;
+        }
+
+        document.querySelectorAll('.class-slot.selected').forEach(element => {
+            const selectedInfo = JSON.parse(element.dataset.classInfo);
+            if (selectedInfo.selectionKey === classInfo.selectionKey) {
+                element.classList.remove('selected');
+            }
+        });
+
+        selectedClasses.delete(classInfo.selectionKey);
+        const matchingSlot = findClassSlotElement(classInfo);
+        if (!matchingSlot) {
+            showPlanningMessage('Không tìm thấy lớp này trong dữ liệu hiện tại.');
+            return false;
+        }
+
+        matchingSlot.classList.remove('disabled');
+        matchingSlot.classList.add('selected');
+        matchingSlot.style.display = 'block';
+        selectedClasses.set(classInfo.selectionKey, [classInfo]);
+        updateSelectedClassesList();
+        updateConflicts();
+        checkMissingSubjects();
+        hideRecommendationResult();
+        return true;
+    }
+
+    function saveCurrentSubjectPlans() {
+        const currentClasses = getSelectedClassesArray();
+        if (currentClasses.length === 0) {
+            showPlanningMessage('Hãy chọn ít nhất một lớp trên bảng trước khi lưu.');
+            return;
+        }
+
+        let addedCount = 0;
+        currentClasses.forEach(classInfo => {
+            const courseCode = classInfo.maHocPhan;
+            const references = planningState.subjectPlans[courseCode] || [];
+            const identity = getClassIdentity(classInfo);
+            const alreadySaved = references.some(reference => {
+                const savedClass = resolveClassReference(reference);
+                return savedClass && getClassIdentity(savedClass) === identity;
+            });
+
+            if (!alreadySaved) {
+                references.push(getClassReference(classInfo));
+                planningState.subjectPlans[courseCode] = references;
+                addedCount += 1;
+            }
+        });
+
+        persistPlanningState();
+        renderPlanningState();
+        showPlanningMessage(
+            addedCount > 0
+                ? `Đã lưu ${addedCount} phương án lớp mới.`
+                : 'Các lớp đang chọn đã có trong danh sách phương án.'
+        );
+    }
+
+    function deleteSubjectPlan(courseCode, classIdentity) {
+        const remainingReferences = (
+            planningState.subjectPlans[courseCode] || []
+        ).filter(reference => {
+            const classInfo = resolveClassReference(reference);
+            return classInfo && getClassIdentity(classInfo) !== classIdentity;
+        });
+
+        if (remainingReferences.length > 0) {
+            planningState.subjectPlans[courseCode] = remainingReferences;
+        } else {
+            delete planningState.subjectPlans[courseCode];
+        }
+
+        persistPlanningState();
+        renderPlanningState();
+        showPlanningMessage('Đã xóa phương án lớp.');
+    }
+
+    function saveCurrentSchedulePlan() {
+        const currentClasses = getSelectedClassesArray();
+        if (currentClasses.length === 0) {
+            showPlanningMessage('Hãy chọn ít nhất một lớp trước khi lưu phương án tổng thể.');
+            return;
+        }
+
+        const nameInput = document.getElementById('schedulePlanName');
+        const fallbackName = `Phương án ${planningState.schedulePlans.length + 1}`;
+        const planName = nameInput.value.trim() || fallbackName;
+        const planId = `plan-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
+        planningState.schedulePlans.push({
+            id: planId,
+            name: planName,
+            savedAt: new Date().toISOString(),
+            classes: currentClasses.map(getClassReference)
+        });
+
+        nameInput.value = '';
+        persistPlanningState();
+        renderPlanningState();
+        showPlanningMessage(`Đã lưu “${planName}”.`);
+    }
+
+    function applySchedulePlan(planId) {
+        const plan = planningState.schedulePlans.find(item => item.id === planId);
+        if (!plan) return;
+
+        const completedCourseCodes = getCompletedCourseKeys();
+        const classes = plan.classes
+            .map(resolveClassReference)
+            .filter(Boolean)
+            .filter(classInfo => !completedCourseCodes.has(classInfo.maHocPhan));
+        const occupiedSlots = new Set();
+        const hasConflict = classes.some(classInfo => {
+            const slotKey = `${classInfo.thu}-${classInfo.ca}`;
+            if (occupiedSlots.has(slotKey)) return true;
+            occupiedSlots.add(slotKey);
+            return false;
+        });
+
+        if (hasConflict) {
+            showPlanningMessage('Phương án này có lớp trùng ca và không thể áp dụng.');
+            return;
+        }
+
+        resetSelectionState();
+        classes.forEach(classInfo => {
+            const matchingSlot = findClassSlotElement(classInfo);
+            if (!matchingSlot) return;
+            matchingSlot.classList.add('selected');
+            matchingSlot.style.display = 'block';
+            selectedClasses.set(classInfo.selectionKey, [classInfo]);
+        });
+
+        updateSelectedClassesList();
+        updateConflicts();
+        checkMissingSubjects();
+        hideRecommendationResult();
+
+        const skippedCount = plan.classes.length - classes.length;
+        showPlanningMessage(
+            skippedCount > 0
+                ? `Đã áp dụng “${plan.name}”; bỏ qua ${skippedCount} môn đã học/học vượt.`
+                : `Đã áp dụng “${plan.name}”.`
+        );
+    }
+
+    function deleteSchedulePlan(planId) {
+        const plan = planningState.schedulePlans.find(item => item.id === planId);
+        planningState.schedulePlans = planningState.schedulePlans.filter(
+            item => item.id !== planId
+        );
+        persistPlanningState();
+        renderPlanningState();
+        showPlanningMessage(
+            plan ? `Đã xóa “${plan.name}”.` : 'Đã xóa phương án.'
+        );
+    }
+
+    function renderPlanningState() {
+        const subjectList = document.getElementById('subjectPlansList');
+        const completedCourseCodes = getCompletedCourseKeys();
+        const subjectEntries = Object.entries(planningState.subjectPlans)
+            .map(([courseCode, references]) => ({
+                courseCode,
+                classes: references.map(resolveClassReference).filter(Boolean)
+            }))
+            .filter(entry => entry.classes.length > 0);
+
+        if (subjectEntries.length === 0) {
+            subjectList.innerHTML = `
+                <div class="plan-empty">
+                    Chưa có phương án cho từng môn. Chọn một lớp rồi bấm “Lưu các lớp đang chọn”.
+                </div>
+            `;
+        } else {
+            subjectList.innerHTML = subjectEntries.map(entry => {
+                const course = entry.classes[0];
+                const isCompleted = completedCourseCodes.has(entry.courseCode);
+                const options = entry.classes.map(classInfo => {
+                    const identity = getClassIdentity(classInfo);
+                    return `
+                        <div class="subject-plan-option">
+                            <span>
+                                Nhóm ${escapeHtml(classInfo.soThuTu)} ·
+                                Thứ ${classInfo.thu}, Ca ${classInfo.ca} ·
+                                ${escapeHtml(classInfo.phongHoc)}
+                            </span>
+                            <div class="plan-card-actions">
+                                <button
+                                    class="action-button outline small"
+                                    type="button"
+                                    data-plan-action="apply-subject"
+                                    data-class-identity="${escapeHtml(identity)}"
+                                    ${isCompleted ? 'disabled' : ''}
+                                >Chọn lớp này</button>
+                                <button
+                                    class="action-button secondary small"
+                                    type="button"
+                                    data-plan-action="delete-subject"
+                                    data-course-code="${escapeHtml(entry.courseCode)}"
+                                    data-class-identity="${escapeHtml(identity)}"
+                                >Xóa</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                return `
+                    <div class="subject-plan-card">
+                        <div class="plan-card-header">
+                            <strong>${escapeHtml(course.tenHocPhan)}</strong>
+                            <span class="plan-card-meta">
+                                ${entry.classes.length} lựa chọn${isCompleted ? ' · Đã học/học vượt' : ''}
+                            </span>
+                        </div>
+                        ${options}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        const scheduleList = document.getElementById('schedulePlansList');
+        if (planningState.schedulePlans.length === 0) {
+            scheduleList.innerHTML = `
+                <div class="plan-empty">
+                    Chưa có phương án tổng thể. Đặt tên và lưu thời khóa biểu đang chọn.
+                </div>
+            `;
+        } else {
+            scheduleList.innerHTML = planningState.schedulePlans.map(plan => {
+                const classes = plan.classes.map(resolveClassReference).filter(Boolean);
+                const dayCount = new Set(classes.map(classInfo => classInfo.thu)).size;
+                const classSummary = classes
+                    .map(classInfo =>
+                        `${escapeHtml(classInfo.tenHocPhan)} — nhóm ${escapeHtml(classInfo.soThuTu)}`
+                    )
+                    .join(' · ');
+
+                return `
+                    <div class="schedule-plan-card">
+                        <div class="plan-card-header">
+                            <div>
+                                <strong>${escapeHtml(plan.name)}</strong>
+                                <div class="plan-card-meta">
+                                    ${classes.length} lớp · ${dayCount} ngày học
+                                </div>
+                            </div>
+                            <div class="plan-card-actions">
+                                <button
+                                    class="action-button outline small"
+                                    type="button"
+                                    data-plan-action="apply-schedule"
+                                    data-plan-id="${escapeHtml(plan.id)}"
+                                >Áp dụng</button>
+                                <button
+                                    class="action-button secondary small"
+                                    type="button"
+                                    data-plan-action="delete-schedule"
+                                    data-plan-id="${escapeHtml(plan.id)}"
+                                >Xóa</button>
+                            </div>
+                        </div>
+                        <div class="plan-card-meta">${classSummary}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+    }
+
     function handleClassClick(element, classInfo) {
         if (element.classList.contains('disabled')) return;
 
+        hideRecommendationResult();
         const isSelected = element.classList.contains('selected');
+        const selectionKey = classInfo.selectionKey;
         
         if (isSelected) {
             element.classList.remove('selected');
-            if (classInfo.maHocPhan === 'E50.07.03') {
-                const englishClasses = selectedClasses.get('E50.07.03') || [];
-                selectedClasses.set('E50.07.03', 
-                    englishClasses.filter(c => c.soThuTu !== classInfo.soThuTu));
-                if (selectedClasses.get('E50.07.03').length === 0) {
-                    selectedClasses.delete('E50.07.03');
-                }
-            } else {
-                selectedClasses.delete(classInfo.maHocPhan);
-            }
+            selectedClasses.delete(selectionKey);
         } else {
-            if (classInfo.maHocPhan === 'E50.07.03') {
-                handleTACNIISelection(element, classInfo);
-            } else {
-                handleRegularClassSelection(element, classInfo);
-            }
+            handleRegularClassSelection(element, classInfo);
         }
 
         updateSelectedClassesList();
@@ -964,44 +2031,17 @@
         checkMissingSubjects();
     }
 
-    function handleTACNIISelection(element, classInfo) {
-        const englishClasses = selectedClasses.get('E50.07.03') || [];
-        
-        if (englishClasses.length >= 2) {
-            showWarning("Chỉ được chọn tối đa 2 lớp Tiếng Anh chuyên ngành II");
-            return;
-        }
-
-        if (englishClasses.length === 1) {
-            const existingClass = englishClasses[0];
-            const existingNumber = existingClass.soThuTu.split('.')[0];
-            const newNumber = classInfo.soThuTu.split('.')[0];
-            
-            if (existingNumber !== newNumber) {
-                showWarning("Vui lòng chọn cặp lớp cùng số (ví dụ: 11.1 và 11.2)");
-                return;
-            }
-        }
-
-        if (!hasTimeConflict(classInfo)) {
-            element.classList.add('selected');
-            selectedClasses.set('E50.07.03', [...englishClasses, classInfo]);
-        } else {
-            showWarning("Lớp này bị trùng thời gian với lớp đã chọn");
-        }
-    }
-
     function handleRegularClassSelection(element, classInfo) {
         if (!hasTimeConflict(classInfo)) {
             document.querySelectorAll('.class-slot.selected').forEach(el => {
                 const info = JSON.parse(el.dataset.classInfo);
-                if (info.maHocPhan === classInfo.maHocPhan) {
+                if (info.selectionKey === classInfo.selectionKey) {
                     el.classList.remove('selected');
                 }
             });
 
             element.classList.add('selected');
-            selectedClasses.set(classInfo.maHocPhan, [classInfo]);
+            selectedClasses.set(classInfo.selectionKey, [classInfo]);
         } else {
             showWarning("Lớp này bị trùng thời gian với lớp đã chọn");
         }
@@ -1056,8 +2096,9 @@
                         const classItem = document.createElement('div');
                         classItem.className = 'subject-item';
                         classItem.innerHTML = `
+                            <span class="course-category">${classInfo.loaiHocPhan}</span><br>
                             ${classInfo.tenHocPhan}<br>
-                            Lớp: ${classInfo.lopHocPhan}-${classInfo.soThuTu}<br>
+                            Mã HP: ${classInfo.maHocPhan} · Nhóm: ${classInfo.soThuTu}<br>
                             Ca: ${classInfo.ca} (${getTimeSlot(classInfo.ca)})<br>
                             Phòng: ${classInfo.phongHoc}
                             ${classInfo.giangVien ? '<br>GV: ' + classInfo.giangVien : ''}
@@ -1077,9 +2118,8 @@
                 // Check time conflicts
                 const hasConflict = hasTimeConflict(classInfo);
                 
-                // Check if same subject is already selected (except TACNII)
-                const isSameSubjectSelected = classInfo.maHocPhan !== 'E50.07.03' && 
-                    selectedClasses.has(classInfo.maHocPhan);
+                // Một lựa chọn cho mỗi học phần hoặc hạng mục tự chọn.
+                const isSameSubjectSelected = selectedClasses.has(classInfo.selectionKey);
 
                 if (hasConflict || isSameSubjectSelected) {
                     element.classList.add('disabled');
@@ -1092,32 +2132,29 @@
 
     function checkMissingSubjects() {
         const missingSubjects = [];
+        const completedCourseKeys = getCompletedCourseKeys();
         const requiredSubjects = [
-            { code: 'E.014.03', name: 'Biên dịch I' },
-            { code: 'FC.005.02', name: 'Lịch sử Đảng cộng sản Việt Nam' },
-            { code: 'IR.025.03', name: 'Công tác ngoại giao' },
-            { code: 'IR.024.02', name: 'Kỹ thuật soạn thảo văn bản' },
-            { code: 'IR.006.03', name: 'Chính sách đối ngoại Việt Nam từ 1945 đến 1975' }
+            { code: 'FC.004.02', name: 'Tư tưởng Hồ Chí Minh' },
+            { code: 'IR.026.03', name: 'Đàm phán quốc tế' },
+            { code: 'IR.032.03', name: 'Quản trị toàn cầu' },
+            { code: 'IR.011.03', name: 'Quan hệ giữa các nước lớn sau chiến tranh lạnh' },
+            { code: 'IR.007.03', name: 'Chính sách đối ngoại Việt Nam từ 1975 đến nay' },
+            { code: 'E.015.03', name: 'Biên dịch II' }
         ];
 
         requiredSubjects.forEach(subject => {
-            if (!selectedClasses.has(subject.code)) {
+            if (
+                !completedCourseKeys.has(subject.code)
+                && !selectedClasses.has(subject.code)
+            ) {
                 missingSubjects.push(subject.name);
             }
         });
 
-        // Check supplementary subject
-        const hasSupplementary = Array.from(selectedClasses.values())
-            .flat()
-            .some(c => c.maHocPhan === 'Bổ trợ');
-        if (!hasSupplementary) {
-            missingSubjects.push('Môn bổ trợ');
-        }
-
         const warningDiv = document.getElementById('missingSubjects');
         if (missingSubjects.length > 0) {
             warningDiv.innerHTML = `
-                <strong>Các môn chưa chọn:</strong>
+                <strong>Các môn bắt buộc chưa chọn:</strong>
                 <ul>
                     ${missingSubjects.map(subject => `<li>${subject}</li>`).join('')}
                 </ul>
@@ -1126,6 +2163,403 @@
         } else {
             warningDiv.style.display = 'none';
         }
+    }
+
+    function getRecommendationPreferences() {
+        return {
+            density: document.getElementById('densityPreference').value,
+            building: document.getElementById('buildingPreference').value,
+            time: document.getElementById('timePreference').value,
+            avoidSaturday: document.getElementById('avoidSaturdayPreference').checked,
+            supplementary: document.getElementById('supplementaryPreference').value,
+            languageSkill: document.getElementById('languageSkillPreference').value,
+            completedCourses: Array.from(getCompletedCourseKeys())
+        };
+    }
+
+    function getBuilding(room) {
+        const normalizedRoom = String(room || '').trim().toUpperCase();
+        if (normalizedRoom === 'HTB') return 'A';
+        return normalizedRoom.charAt(0);
+    }
+
+    function buildRecommendationGroups(preferences, fixedClasses = []) {
+        const completedCourseCodes = new Set(preferences.completedCourses || []);
+        const fixedSelectionKeys = new Set(
+            fixedClasses.map(classInfo => classInfo.selectionKey)
+        );
+        const groups = requiredSelectionKeys
+            .filter(selectionKey =>
+                !completedCourseCodes.has(selectionKey)
+                && !fixedSelectionKeys.has(selectionKey)
+            )
+            .map(selectionKey => ({
+                selectionKey,
+                options: classData.filter(
+                    classInfo => classInfo.selectionKey === selectionKey
+                )
+            }));
+
+        if (
+            preferences.supplementary === 'any'
+            && !fixedSelectionKeys.has('optional:supplementary')
+        ) {
+            groups.push({
+                selectionKey: 'optional:supplementary',
+                options: classData.filter(
+                    classInfo => classInfo.selectionKey === 'optional:supplementary'
+                        && !completedCourseCodes.has(classInfo.maHocPhan)
+                )
+            });
+        }
+
+        if (
+            preferences.languageSkill === 'any'
+            && !fixedSelectionKeys.has('optional:language-skill')
+        ) {
+            groups.push({
+                selectionKey: 'optional:language-skill',
+                options: classData.filter(
+                    classInfo => classInfo.selectionKey === 'optional:language-skill'
+                        && !completedCourseCodes.has(classInfo.maHocPhan)
+                )
+            });
+        }
+
+        return groups.sort((groupA, groupB) => groupA.options.length - groupB.options.length);
+    }
+
+    function scoreRecommendation(classes, preferences) {
+        const dayGroups = new Map();
+        classes.forEach(classInfo => {
+            if (!dayGroups.has(classInfo.thu)) {
+                dayGroups.set(classInfo.thu, []);
+            }
+            dayGroups.get(classInfo.thu).push(classInfo);
+        });
+
+        const dayCounts = Array.from(dayGroups.values()).map(dayClasses => dayClasses.length);
+        const distributionPenalty = preferences.density === 'compact'
+            ? dayGroups.size
+            : dayCounts.reduce((sum, count) => sum + (count * count), 0);
+
+        const buildingMismatch = preferences.building === 'any'
+            ? 0
+            : classes.filter(
+                classInfo => getBuilding(classInfo.phongHoc) !== preferences.building
+            ).length;
+        const saturdayClasses = preferences.avoidSaturday
+            ? classes.filter(classInfo => classInfo.thu === 7).length
+            : 0;
+
+        const targetStart = preferences.time === 'early'
+            ? 1
+            : preferences.time === 'late'
+                ? 2
+                : null;
+        let startPenalty = 0;
+        let exactStartDays = 0;
+        let gapPenalty = 0;
+
+        dayGroups.forEach(dayClasses => {
+            const caList = dayClasses
+                .map(classInfo => classInfo.ca)
+                .sort((caA, caB) => caA - caB);
+            const firstCa = caList[0];
+
+            if (targetStart !== null) {
+                startPenalty += Math.abs(firstCa - targetStart);
+                if (firstCa === targetStart) {
+                    exactStartDays += 1;
+                }
+            }
+
+            for (let index = 1; index < caList.length; index += 1) {
+                gapPenalty += Math.max(0, caList[index] - caList[index - 1] - 1);
+            }
+        });
+
+        return {
+            vector: [
+                saturdayClasses,
+                distributionPenalty,
+                buildingMismatch,
+                startPenalty,
+                gapPenalty
+            ],
+            days: dayGroups.size,
+            dayGroups,
+            buildingMismatch,
+            saturdayClasses,
+            exactStartDays,
+            gapPenalty
+        };
+    }
+
+    function isBetterRecommendation(candidate, currentBest) {
+        if (!currentBest) return true;
+
+        for (let index = 0; index < candidate.score.vector.length; index += 1) {
+            if (candidate.score.vector[index] < currentBest.score.vector[index]) return true;
+            if (candidate.score.vector[index] > currentBest.score.vector[index]) return false;
+        }
+
+        return candidate.signature.localeCompare(currentBest.signature, 'vi') < 0;
+    }
+
+    function findBestRecommendation(preferences, fixedClasses = []) {
+        const groups = buildRecommendationGroups(preferences, fixedClasses);
+        if (groups.some(group => group.options.length === 0)) {
+            return null;
+        }
+
+        let bestRecommendation = null;
+        const chosenClasses = [...fixedClasses];
+        const memoByGroup = groups.map(() => new Map());
+        let initialOccupiedMask = 0;
+        let initialBuildingMismatch = 0;
+
+        for (const classInfo of fixedClasses) {
+            const slotIndex = ((classInfo.thu - 2) * 4) + (classInfo.ca - 1);
+            const slotBit = 1 << slotIndex;
+            if ((initialOccupiedMask & slotBit) !== 0) return null;
+            initialOccupiedMask |= slotBit;
+
+            if (
+                preferences.building !== 'any'
+                && getBuilding(classInfo.phongHoc) !== preferences.building
+            ) {
+                initialBuildingMismatch += 1;
+            }
+        }
+
+        function search(groupIndex, occupiedMask, partialBuildingMismatch) {
+            if (groupIndex === groups.length) {
+                const score = scoreRecommendation(chosenClasses, preferences);
+                const signature = chosenClasses
+                    .map(classInfo => `${classInfo.selectionKey}:${classInfo.maHocPhan}:${classInfo.soThuTu}`)
+                    .sort()
+                    .join('|');
+                const candidate = {
+                    classes: [...chosenClasses],
+                    score,
+                    signature
+                };
+
+                if (isBetterRecommendation(candidate, bestRecommendation)) {
+                    bestRecommendation = candidate;
+                }
+                return;
+            }
+
+            const memo = memoByGroup[groupIndex];
+            const previousMismatch = memo.get(occupiedMask);
+            if (
+                previousMismatch !== undefined
+                && previousMismatch <= partialBuildingMismatch
+            ) {
+                return;
+            }
+            memo.set(occupiedMask, partialBuildingMismatch);
+
+            groups[groupIndex].options.forEach(classInfo => {
+                const slotIndex = ((classInfo.thu - 2) * 4) + (classInfo.ca - 1);
+                const slotBit = 1 << slotIndex;
+                if ((occupiedMask & slotBit) !== 0) return;
+
+                const buildingMismatchIncrement = preferences.building === 'any'
+                    || getBuilding(classInfo.phongHoc) === preferences.building
+                    ? 0
+                    : 1;
+
+                chosenClasses.push(classInfo);
+                search(
+                    groupIndex + 1,
+                    occupiedMask | slotBit,
+                    partialBuildingMismatch + buildingMismatchIncrement
+                );
+                chosenClasses.pop();
+            });
+        }
+
+        search(0, initialOccupiedMask, initialBuildingMismatch);
+        return bestRecommendation;
+    }
+
+    function resetSelectionState() {
+        selectedClasses.clear();
+        isHidingUnselected = false;
+        document.getElementById('hideUnselectedBtn').textContent = 'Ẩn lớp không chọn';
+        document.querySelectorAll('.class-slot').forEach(element => {
+            element.classList.remove('selected', 'disabled');
+            element.style.display = 'block';
+        });
+    }
+
+    function applyRecommendation(recommendation) {
+        const classSlots = Array.from(document.querySelectorAll('.class-slot'));
+
+        recommendation.classes.forEach(classInfo => {
+            const matchingSlot = classSlots.find(element => {
+                const slotInfo = JSON.parse(element.dataset.classInfo);
+                return slotInfo.maHocPhan === classInfo.maHocPhan
+                    && slotInfo.soThuTu === classInfo.soThuTu
+                    && slotInfo.thu === classInfo.thu
+                    && slotInfo.ca === classInfo.ca;
+            });
+
+            if (matchingSlot) {
+                matchingSlot.classList.remove('disabled');
+                matchingSlot.classList.add('selected');
+                matchingSlot.style.display = 'block';
+                selectedClasses.set(classInfo.selectionKey, [classInfo]);
+            }
+        });
+
+        updateSelectedClassesList();
+        updateConflicts();
+        checkMissingSubjects();
+    }
+
+    function showRecommendationResult(recommendation, preferences, fixedClasses = []) {
+        const result = document.getElementById('recommendationResult');
+        const score = recommendation.score;
+        const totalClasses = recommendation.classes.length;
+        const fixedClassIdentities = new Set(
+            fixedClasses.map(getClassIdentity)
+        );
+        const addedClasses = recommendation.classes.filter(
+            classInfo => !fixedClassIdentities.has(getClassIdentity(classInfo))
+        );
+        const preferredBuildingMatches = preferences.building === 'any'
+            ? null
+            : totalClasses - score.buildingMismatch;
+        const targetStartLabel = preferences.time === 'early'
+            ? 'Ca 1'
+            : preferences.time === 'late'
+                ? 'Ca 2'
+                : null;
+        const dayDistribution = Array.from(score.dayGroups.entries())
+            .sort(([dayA], [dayB]) => dayA - dayB)
+            .map(([day, dayClasses]) => `Thứ ${day}: ${dayClasses.length} lớp`)
+            .join(' · ') || 'Không còn môn cần xếp';
+        const completedCourseCount = (preferences.completedCourses || []).length;
+        const supplementaryClass = recommendation.classes.find(
+            classInfo => classInfo.selectionKey === 'optional:supplementary'
+        );
+        const languageSkillClass = recommendation.classes.find(
+            classInfo => classInfo.selectionKey === 'optional:language-skill'
+        );
+
+        result.classList.remove('error');
+        result.innerHTML = `
+            <h3>${fixedClasses.length > 0
+                ? `Đã giữ ${fixedClasses.length} lớp và gợi ý ${addedClasses.length} lớp mới`
+                : `Đã gợi ý ${addedClasses.length} lớp`}</h3>
+            <p>${dayDistribution}. Các lớp đã chọn ban đầu được giữ nguyên; bạn có thể tiếp tục điều chỉnh từng lớp.</p>
+            <div class="recommendation-metrics">
+                <div class="recommendation-metric">
+                    <strong>Lớp giữ nguyên</strong>
+                    ${fixedClasses.length} lớp
+                </div>
+                <div class="recommendation-metric">
+                    <strong>Lớp được gợi ý</strong>
+                    ${addedClasses.length} lớp
+                </div>
+                <div class="recommendation-metric">
+                    <strong>Số ngày học</strong>
+                    ${score.days} ngày
+                </div>
+                <div class="recommendation-metric">
+                    <strong>Tránh Thứ 7</strong>
+                    ${preferences.avoidSaturday
+                        ? score.saturdayClasses === 0
+                            ? 'Không có lớp Thứ 7'
+                            : `${score.saturdayClasses} lớp Thứ 7 là phương án ít nhất`
+                        : 'Không áp dụng'}
+                </div>
+                <div class="recommendation-metric">
+                    <strong>Ưu tiên tòa nhà</strong>
+                    ${totalClasses === 0
+                        ? 'Không còn môn cần xếp'
+                        : preferredBuildingMatches === null
+                        ? 'Không áp dụng'
+                        : `${preferredBuildingMatches}/${totalClasses} lớp ở tòa ${preferences.building}`}
+                </div>
+                <div class="recommendation-metric">
+                    <strong>Giờ bắt đầu</strong>
+                    ${score.days === 0
+                        ? 'Không còn ngày học'
+                        : targetStartLabel === null
+                        ? 'Không áp dụng'
+                        : `${score.exactStartDays}/${score.days} ngày bắt đầu ${targetStartLabel}`}
+                </div>
+                <div class="recommendation-metric">
+                    <strong>Đã học/học vượt</strong>
+                    ${completedCourseCount} môn đã ẩn
+                </div>
+                <div class="recommendation-metric">
+                    <strong>Môn bổ trợ</strong>
+                    ${supplementaryClass ? supplementaryClass.tenHocPhan : 'Không chọn'}
+                </div>
+                <div class="recommendation-metric">
+                    <strong>Kỹ năng ngoại ngữ</strong>
+                    ${languageSkillClass ? languageSkillClass.tenHocPhan : 'Không chọn'}
+                </div>
+            </div>
+        `;
+        result.style.display = 'block';
+    }
+
+    function showRecommendationError(message) {
+        const result = document.getElementById('recommendationResult');
+        result.classList.add('error');
+        result.innerHTML = `<strong>${message}</strong>`;
+        result.style.display = 'block';
+    }
+
+    function hideRecommendationResult() {
+        const result = document.getElementById('recommendationResult');
+        result.style.display = 'none';
+        result.classList.remove('error');
+    }
+
+    function generateRecommendation() {
+        const button = document.getElementById('recommendBtn');
+        const preferences = getRecommendationPreferences();
+        const result = document.getElementById('recommendationResult');
+
+        button.disabled = true;
+        button.textContent = 'Đang tìm lịch...';
+        result.classList.remove('error');
+        result.innerHTML = 'Đang so sánh các phương án không trùng ca...';
+        result.style.display = 'block';
+
+        setTimeout(() => {
+            try {
+                const fixedClasses = getSelectedClassesArray();
+                const recommendation = findBestRecommendation(
+                    preferences,
+                    fixedClasses
+                );
+                if (!recommendation) {
+                    showRecommendationError('Không tìm thấy lịch hoàn chỉnh khi giữ các lớp hiện tại. Hãy đổi hoặc bỏ bớt một lớp đã chọn rồi thử lại.');
+                    return;
+                }
+
+                applyRecommendation(recommendation);
+                showRecommendationResult(
+                    recommendation,
+                    preferences,
+                    fixedClasses
+                );
+            } catch (error) {
+                showRecommendationError('Có lỗi khi tạo gợi ý. Vui lòng thử lại.');
+            } finally {
+                button.disabled = false;
+                button.textContent = 'Gợi ý phần còn thiếu';
+            }
+        }, 0);
     }
 
     function showWarning(message) {
@@ -1149,6 +2583,74 @@
 
     function setupEventListeners() {
         // Action buttons
+        document.getElementById('recommendBtn').addEventListener('click', generateRecommendation);
+        document.getElementById('saveSubjectPlansBtn').addEventListener(
+            'click',
+            saveCurrentSubjectPlans
+        );
+        document.getElementById('saveSchedulePlanBtn').addEventListener(
+            'click',
+            saveCurrentSchedulePlan
+        );
+        document.getElementById('schedulePlanName').addEventListener(
+            'keydown',
+            event => {
+                if (event.key !== 'Enter') return;
+                event.preventDefault();
+                saveCurrentSchedulePlan();
+            }
+        );
+        document.getElementById('subjectPlansList').addEventListener(
+            'click',
+            event => {
+                const button = event.target.closest('[data-plan-action]');
+                if (!button) return;
+
+                const action = button.dataset.planAction;
+                const classIdentity = button.dataset.classIdentity;
+                if (action === 'apply-subject') {
+                    const classInfo = getClassByIdentity(classIdentity);
+                    if (classInfo && selectPlannedClass(classInfo)) {
+                        showPlanningMessage('Đã áp dụng phương án lớp.');
+                    }
+                } else if (action === 'delete-subject') {
+                    deleteSubjectPlan(
+                        button.dataset.courseCode,
+                        classIdentity
+                    );
+                }
+            }
+        );
+        document.getElementById('schedulePlansList').addEventListener(
+            'click',
+            event => {
+                const button = event.target.closest('[data-plan-action]');
+                if (!button) return;
+
+                if (button.dataset.planAction === 'apply-schedule') {
+                    applySchedulePlan(button.dataset.planId);
+                } else if (button.dataset.planAction === 'delete-schedule') {
+                    deleteSchedulePlan(button.dataset.planId);
+                }
+            }
+        );
+        document.querySelectorAll('.preference-field select').forEach(select => {
+            select.addEventListener('change', hideRecommendationResult);
+        });
+        document.getElementById('avoidSaturdayPreference').addEventListener(
+            'change',
+            hideRecommendationResult
+        );
+        document.getElementById('completedCourseOptions').addEventListener(
+            'change',
+            event => {
+                if (!event.target.classList.contains('completed-course-checkbox')) return;
+                hideRecommendationResult();
+                applyCompletedCourseVisibility();
+                renderPlanningState();
+            }
+        );
+
         document.getElementById('hideUnselectedBtn').addEventListener('click', function() {
             isHidingUnselected = !isHidingUnselected;
             this.textContent = isHidingUnselected ? 'Hiện tất cả lớp' : 'Ẩn lớp không chọn';
@@ -1160,11 +2662,8 @@
         });
 
         document.getElementById('clearSelectionsBtn').addEventListener('click', function() {
-            selectedClasses.clear();
-            document.querySelectorAll('.class-slot').forEach(el => {
-                el.classList.remove('selected', 'disabled');
-                el.style.display = 'block';
-            });
+            resetSelectionState();
+            hideRecommendationResult();
             updateSelectedClassesList();
             checkMissingSubjects();
         });
@@ -1195,7 +2694,9 @@
                 classes.sort((a, b) => a.ca - b.ca)
                     .forEach(classInfo => {
                         content += `- ${classInfo.tenHocPhan}\n`;
-                        content += `  Lớp: ${classInfo.lopHocPhan}-${classInfo.soThuTu}\n`;
+                        content += `  Mã HP: ${classInfo.maHocPhan}\n`;
+                        content += `  Nhóm: ${classInfo.soThuTu}\n`;
+                        content += `  Hạng mục: ${classInfo.loaiHocPhan}\n`;
                         content += `  Ca: ${classInfo.ca} (${getTimeSlot(classInfo.ca)})\n`;
                         content += `  Phòng: ${classInfo.phongHoc}\n`;
                         if (classInfo.giangVien) {
